@@ -18,7 +18,8 @@ object TopMentions {
     inputFile.registerTempTable("querytable1")
     val mentions_query = sqlContext.sql("select entities.user_mentions.name, count(id) as TopMentions from querytable1" +
       " where entities.user_mentions.name is not null group by entities.user_mentions.name order by TopMentions desc limit 30")
-     mentions_query.save("TopMentions","json")
+     //mentions_query.save("TopMentions","json")
+    mentions_query.show()
 
   }
 }

@@ -9,8 +9,8 @@ object TweetsEachHour {
     val tweetsfile = sqlContext.jsonFile("C:\\\\Users\\\\kisho\\\\Documents\\\\PythonTweetsPanamaPapers.json")
     tweetsfile.registerTempTable("tweettable")
     val hour_query = sqlContext.sql("select SUBSTR(created_at,12,2) as Hour,count(id) as TweetsEachHour from tweettable group by SUBSTR(created_at,12,2) " +
-      "order by TweetsEachHour desc limit 5")
-    hour_query.save("HourlyTweets","json")
-
+      "order by count(id) desc limit 5")
+    //hour_query.save("HourlyTweets","json")
+    hour_query.show()
   }
 }

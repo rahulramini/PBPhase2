@@ -64,7 +64,12 @@ d3.csv("File1.csv", type, function(error, data) {
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+    .append("text")
+      .attr("x", 6)
+      .attr("dx", ".71em")
+      .style("text-anchor", "end")
+      .text("TweetID");
 
   svg.append("g")
       .attr("class", "y axis")

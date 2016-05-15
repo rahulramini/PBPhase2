@@ -15,7 +15,7 @@ object FollowersCount {
     inputFile.registerTempTable("querytable1")
     val followers_query = sqlContext.sql("select user.name, max(user.followers_count) as followerscount from querytable1" +
       " group by user.name order by followerscount desc limit 10")
-    followers_query.save("followersCount","json")
-
+    //followers_query.save("followersCount","json")
+      followers_query.show()
   }
 }

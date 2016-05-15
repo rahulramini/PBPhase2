@@ -1,67 +1,41 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['name', 'followerscount'],
+          ['The New York Times', 26210363],
+          ['CNN', 24409451],
+          ['daniel tosh', 22679535],
+          ['The Economist', 13677727],
+          ['CNN en Español', 12647816],
+          ['Reuters Top News', 12557128],
+          ['detikcom', 12396483],
+          ['Wall Street Journal', 10616402],
+          ['Forbes', 9046734],
+          ['METRO TV', 8675092]
+        ]);
 
-.arc text {
-  font: 10px sans-serif;
-  text-anchor: middle;
-}
+        var options = {
+          title: 'Highest number of followers',
+          legend: 'none',
+          pieSliceText: 'label',
+          slices: {  2: {offset: 0.1},
+                     4: {offset: 0.1},
+                     5: {offset: 0.1},
+                     8: {offset: 0.1},
+          },
+        };
 
-.arc path {
-  stroke: #fff;
-}
-
-</style>
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
 <body>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-
-var width = 960,
-    height = 500,
-    radius = Math.min(width, height) / 2;
-
-var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(0);
-
-var labelArc = d3.svg.arc()
-    .outerRadius(radius - 40)
-    .innerRadius(radius - 40);
-
-var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return d.followerscount; });
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-d3.csv("followerscountresult.csv", type, function(error, data) {
-  if (error) throw error;
-
-  var g = svg.selectAll(".arc")
-      .data(pie(data))
-    .enter().append("g")
-      .attr("class", "arc");
-
-  g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.name); });
-
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .text(function(d) { return d.data.name; });
-});
-
-function type(d) {
-  d.followerscount = +d.followerscount;
-  return d;
-}
-
-</script>
+<div id="piechart" style="width: 2500px; height: 1500px;"></div>
+</body>
+</html>

@@ -1,11 +1,11 @@
-"name","followerscount"
-"The New York Times","26210363"
-"CNN","24409451"
-"daniel tosh","22679535"
-"The Economist","13677727"
-"CNN en Español","12647816"
-"Reuters Top News","12557128"
-"detikcom","12396483"
-"Wall Street Journal","10616402"
-"Forbes","9046734"
-"METRO TV","8675092"
+['name',followerscount],
+[The New York Times, 26210363],
+['CNN',24409451],
+['daniel tosh',22679535],
+['The Economist',13677727],
+['CNN en Español',12647816],
+['Reuters Top News',12557128],
+['detikcom',12396483],
+['Wall Street Journal',10616402],
+['Forbes',9046734],
+['METRO TV',8675092]

@@ -1,70 +1,27 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<title>Popular Retweets</title>
-<style>
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['TweetType', 'retweetscount'],
+          ['Retweets', 62551],
+          ['Original Tweets', 40374]
+        ]);
 
-.arc text {
-  font: 10px sans-serif;
-  text-anchor: middle;
-}
+        var options = {
+          title: 'Original Tweets vs Retweets',
+          is3D: true,
+        };
 
-.arc path {
-  stroke: #fff;
-}
-
-</style>
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script>
-
-var width = 960,
-    height = 500,
-    radius = Math.min(width, height) / 2;
-
-var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
-    .innerRadius(0);
-
-var labelArc = d3.svg.arc()
-    .outerRadius(radius - 40)
-    .innerRadius(radius - 40);
-
-var pie = d3.layout.pie()
-    .sort(null)
-    .value(function(d) { return d.retweetscount; });
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-  .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-d3.csv("file3.csv", type, function(error, data) {
-  if (error) throw error;
-
-  var g = svg.selectAll(".arc")
-      .data(pie(data))
-    .enter().append("g")
-      .attr("class", "arc");
-
-  g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.TweetType); });
-
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-      .attr("dy", "1.25em")
-      .text(function(d) { return d.data.TweetType; });
-});
-
-function type(d) {
-  d.retweetscount = +d.retweetscount;
-  return d;
-}
-
-</script>
+<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 </body>
 </html>

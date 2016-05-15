@@ -1,10 +1,9 @@
-"name","TopMentions"
-"Edward Snowden","834"
-"Bernie Sanders","749"
-"WikiLeaks","649"
-"BBC Mundo","597"
-"Aristegui Noticias","564"
-"Periodismo Libre","487"
-"Anonymous","481"
-"AJ+","370"
-"teleSUR TV","370"
+{text : "Edward Snowden", count : "834"},
+{text : "Bernie Sanders", count : "749"},
+{text : "WikiLeaks", count : "649"},
+{text : "BBC Mundo", count : "597"},
+{text : "Aristegui Noticias", count : "564"},
+{text : "Periodismo Libre", count : "487"},
+{text : "Anonymous", count : "481"},
+{text : "AJ+", count : "370"},
+{text : "teleSUR TV", count : "370"},

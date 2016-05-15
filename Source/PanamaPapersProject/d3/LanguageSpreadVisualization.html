@@ -1,94 +1,35 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['language',	'tweetscount'],
+['en',	56482],
+['es',	31402],
+['fr',	3880],
+['id',	2550],
+['pt',	1834],
+['ja',	1349],
+['de',	976],
+['en-gb',	779],
+['tr',	772],
+['it',	507]
+        ]);
 
-.bar {
-  fill: steelblue;
-}
+        var options = {
+          title: 'Language Spread',
+          pieHole: 0.4,
+        };
 
-.bar:hover {
-  fill: brown;
-}
-
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
-
-</style>
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
 <body>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .ticks(10, "k");
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.tsv("languageresult.tsv", type, function(error, data) {
-  if (error) throw error;
-
-  x.domain(data.map(function(d) { return d.language; }));
-  y.domain([0, d3.max(data, function(d) { return d.tweetscount; })]);
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("tweetscount");
-
-  svg.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.language); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.tweetscount); })
-      .attr("height", function(d) { return height - y(d.tweetscount); });
-});
-
-function type(d) {
-  d.tweetscount = +d.tweetscount;
-  return d;
-}
-
-</script>
+<div id="donutchart" style="width: 4500px; height: 3500px;"></div>
+</body>
+</html>

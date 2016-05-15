@@ -1,137 +1,42 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['geochart']});
+      google.charts.setOnLoadCallback(drawRegionsMap);
 
-.bar.total rect {
-  fill: steelblue;
-}
+      function drawRegionsMap() {
 
-.bar.positive rect {
-  fill: darkolivegreen;
-}
-.bar.negative rect {
-  fill: crimson;
-}
+        var data = google.visualization.arrayToDataTable([
+          ['time_zone', 'TopMentions'],
+          ['United Kingdom', 37],
+          ['Malaysia', 22],
+          ['France', 22],
+          ['Mountain Time (US & Canada)', 19],
+          ['India', 19],
+          ['Netherlands', 19],
+          ['Alaska', 17],
+          ['Arizona', 13],
+          ['Hawaii', 13],
+          ['Quito', 12],
+          ['Japan', 12],
+          ['Atlantic Time (Canada)', 11],
+          ['Athens', 10],
+          ['Brasilia', 9],
+          ['New Zealand', 8],
+          ['Australia', 8]
+        ]);
 
-.bar line.connector {
-  stroke: grey;
-  stroke-dasharray: 3;
-}
+        var options = {};
 
-.bar text {
-  fill: white;
-  font: 12px sans-serif;
-  text-anchor: middle;
-}
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
-.axis text {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-</style>
-<svg class="chart"></svg>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
-var margin = {top: 20, right: 30, bottom: 30, left: 40},
-    width = 2000 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
-    padding = 0.3;
-
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], padding);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(function(d) { return dollarFormatter(d); });
-
-var chart = d3.select(".chart")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("Snowdenspreadresult.csv", type, function(error, data) {
-
-  // Transform data (i.e., finding cumulative TopMentionss and total) for easier charting
-  var cumulative = 0;
-  for (var i = 0; i < data.length; i++) {
-    data[i].start = cumulative;
-    cumulative += data[i].TopMentions;
-    data[i].end = cumulative;
-
-    data[i].class = ( data[i].TopMentions >= 0 ) ? 'positive' : 'negative'
-  }
-  data.push({
-    time_zone: 'Total',
-    end: cumulative,
-    start: 0,
-    class: 'total'
-  });
-
-  x.domain(data.map(function(d) { return d.time_zone; }));
-  y.domain([0, d3.max(data, function(d) { return d.end; })]);
-
-  chart.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  chart.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
-
-  var bar = chart.selectAll(".bar")
-      .data(data)
-    .enter().append("g")
-      .attr("class", function(d) { return "bar " + d.class })
-      .attr("transform", function(d) { return "translate(" + x(d.time_zone) + ",0)"; });
-
-  bar.append("rect")
-      .attr("y", function(d) { return y( Math.max(d.start, d.end) ); })
-      .attr("height", function(d) { return Math.abs( y(d.start) - y(d.end) ); })
-      .attr("width", x.rangeBand());
-
-  bar.append("text")
-      .attr("x", x.rangeBand() / 2)
-      .attr("y", function(d) { return y(d.end) + 5; })
-      .attr("dy", function(d) { return ((d.class=='negative') ? '-' : '') + ".75em" })
-      .text(function(d) { return dollarFormatter(d.end - d.start);});
-
-  bar.filter(function(d) { return d.class != "total" }).append("line")
-      .attr("class", "connector")
-      .attr("x1", x.rangeBand() + 5 )
-      .attr("y1", function(d) { return y(d.end) } )
-      .attr("x2", x.rangeBand() / ( 1 - padding) - 5 )
-      .attr("y2", function(d) { return y(d.end) } )
-});
-
-function type(d) {
-  d.TopMentions = +d.TopMentions;
-  return d;
-}
-
-function dollarFormatter(n) {
-  n = Math.round(n);
-  var result = n;
-  if (Math.abs(n) > 1000) {
-    result = Math.round(n/1000) + 'K';
-  }
-  return result;
-}
-
-</script>
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body>
+<div id="regions_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
